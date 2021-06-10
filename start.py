@@ -8,32 +8,36 @@ import platform
 
 if(platform.system()=='Windows'):
     startCommand='start /min '
+    clearCommand='cls'
 elif(platform.system()=='Linux'):
     startCommand='nohup '
+    clearCommand='clear'
 
-def start(path):
+def start(db_path):
     nodeName=[]
     beeProcesses=[]
     output = Table(["Name", "Status", "Peers", "Tickets","Total"])
-    for node in os.listdir(path):
-        if node[:5]=='node_':
-            print("\033[34m"+node+":\033[33mstarting\033[0m")
-            nodeName.append(node)
-            if(os.path.exists(path+node)):
-                beeProcesses.append(subprocess.Popen(
-                startCommand
-                +'bee start --config ' 
-                +path
-                +node
-                +'/'
-                +node
-                +'.yaml '
-                + '--data-dir '
-                +path
-                +node
-                + ' --password '
-                +node,
-                shell=True))
+    for path in db_path:
+        for node in os.listdir(path):
+            if node[:5]=='node_':
+                print("\033[34m"+node+":\033[33mstarting\033[0m")
+                nodeName.append(node)
+                if(os.path.exists(path+node)):
+                    beeProcesses.append(subprocess.Popen(
+                    startCommand
+                    +'bee start --config ' 
+                    +path
+                    +node
+                    +'/'
+                    +node
+                    +'.yaml '
+                    + '--data-dir '
+                    +path
+                    +node
+                    + ' --password '
+                    +node
+                    ,
+                    shell=True))
     nodeName.sort(key=lambda name:int(name.split('node_')[1]))
     while True:
         processStatus=[]
@@ -46,8 +50,11 @@ def start(path):
             processStatus.append(os.popen('curl '+'-s'+' localhost:'+COM+'/peers').read())
             tickets.append(os.popen('curl '+'-s'+' localhost:'+COM+'/chequebook/cheque').read())
         time.sleep(10)
-        os.system("cls")
+        os.system(clearCommand)
         for node in nodeName:
+            peers=0
+            ticketCountEffective=0
+            ticketCount=0
             status="unknown"
             if processStatus[count]!='':
                 status="running"
@@ -72,32 +79,32 @@ def start(path):
             else:
                 status="stopped"
                 rowColor[1]=Color.red
-                rowColor[2]=Color.red
-                rowColor[3]=Color.red
             count+=1
             output.AddRow([node, status, peers, ticketCountEffective,ticketCount],[color for color in rowColor])
             #print("\033[34m"+node+":"+status)
         output.PrintTable()
         output.Clear()
 
-def init(path):
+def init(db_path):
     fileEth=open("./address_eth.txt",'w')
     fileBzz=open("./address_bzz.txt",'w')
-    for node in os.listdir(path):
-        if (os.path.exists(path+'/'+node)) and node[:5]=='node_' and not(os.path.exists(path+'/'+node+'/statestore/')):
-            command=str('bee init --config ' 
-            +path
-            +'/'
-            +node
-            +'/'
-            +node
-            +'.yaml '
-            + '--data-dir '
-            +path
-            +node
-            + ' --password '
-            +node)
-            result=os.popen(command).read()
-            output=result[result.find("using ethereum address"):].split(" ")
-            fileEth.write("0x"+output[3][:40]+",0.05"+"     "+"\n")
-            fileBzz.write("0x"+output[3][:40]+",1"+"     "+"\n")
+    for path in db_path:
+        for node in os.listdir(path):
+            print(node)
+            if (os.path.exists(path+'/'+node)) and node[:5]=='node_' and not(os.path.exists(path+'/'+node+'/statestore/')):
+                command=str('bee init --config ' 
+                +path
+                +'/'
+                +node
+                +'/'
+                +node
+                +'.yaml '
+                + '--data-dir '
+                +path
+                +node
+                + ' --password '
+                +node)
+                result=os.popen(command).read()
+                output=result[result.find("using ethereum address"):].split(" ")
+                fileEth.write("0x"+output[3][:40]+",0.3"+"     "+"\n")
+                fileBzz.write("0x"+output[3][:40]+",1"+"     "+"\n")

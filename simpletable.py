@@ -58,7 +58,10 @@ class Table:
         for i in range(len(self.rows)):
             for i2 in range(len(self.rows[i])):
                 print("|",end='')
-                print(self.rowColor[i][i2].value,end='')
+                try:
+                    print(self.rowColor[i][i2].value,end='')
+                except:
+                    print("",end='')
                 print(self.rows[i][i2],end='')
                 print(Color.default.value,end='')
             print("|")
