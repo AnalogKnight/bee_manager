@@ -29,9 +29,9 @@ path : /home/analogknight/bee_nodes/
 If you want to specify multiple directories:
 ```
 path :
-  /media/analogknight/Data1/bee_nodes/
-  /media/analogknight/Data2/bee_nodes/
-  /media/analogknight/Data3/bee_nodes/
-  /media/analogknight/Data4/bee_nodes/
+  - /media/analogknight/Data1/bee_nodes/
+  - /media/analogknight/Data2/bee_nodes/
+  - /media/analogknight/Data3/bee_nodes/
+  - /media/analogknight/Data4/bee_nodes/
 ```  
 The first directory will be used to create nodes, which you may need to move manually.  
