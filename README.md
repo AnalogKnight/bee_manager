@@ -15,13 +15,13 @@ Command:
 This will create two file: `address_eth.txt` and `address_bzz.txt` in the script directory, the number of BZZ and ETH requirements for each node initialization is recorded.  
 You can go to this website: https://bulksender.app/ to batch transfer.  
 ### Start
-When everything have done, you can start your nodes with this command:  
+When everything has done, you can start your nodes with this command:  
 `python manager.py start`  
 This will start all the nodes and show a monitor for you.  
 It looks like this:  
 ![image](https://user-images.githubusercontent.com/61218809/121532839-4f260780-ca32-11eb-843b-22306c16ba2e.png)
 ### Configuration
-You can specify the directory address of the node in config,yaml.  
+You can specify the directory address of the node in config.yaml.  
 For example:  
 ```
 path : /home/analogknight/bee_nodes/
