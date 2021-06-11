@@ -5,11 +5,11 @@ This is a simple script for deploy, initialization, monitoring multiple bee node
 ### Create nodes:
 Command:  
 ```
-python manager.py <amount>
+python manager.py create <amount>
 ```  
 For example, this creates configuration file of ten nodes:  
 ```
-python manager.py 10
+python manager.py create 10
 ```  
 Nodes will be named in this format: node_0, node_1, node_2, ......, node_9  
 The api port of each node will be: 30000, 30001, 30002, ......, 30009  
